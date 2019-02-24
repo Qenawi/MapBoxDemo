@@ -1,0 +1,85 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+def root = rootProject.ext;
+
+android {
+    dataBinding {
+        enabled = true
+    }
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "com.panda.stuedent_map_1"
+        minSdkVersion 26
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    // Base
+    implementation root.supportDependencies.design
+    implementation root.supportDependencies.appcompat
+    implementation root.supportDependencies.recyclerview
+    implementation root.supportDependencies.cardview
+    implementation root.supportDependencies.constraintLayout
+
+    // Lifecycle arch
+    implementation root.GoogleLifeArchDependancies.runtime
+    implementation root.GoogleLifeArchDependancies.extension
+    annotationProcessor root.GoogleLifeArchDependancies.compiler
+
+    // Room
+    implementation root.RoomDependancies.runtime
+    implementation root.RoomDependancies.rxAdapter
+    annotationProcessor root.RoomDependancies.compiler
+
+    // Retrofit & OkHttp
+    implementation root.squareDependencies.retrofit
+    implementation root.squareDependencies.adapter_rx_java
+    implementation root.squareDependencies.converter_gson
+    implementation root.squareDependencies.okHttp
+    implementation root.squareDependencies.okHttpLoging
+
+    // Ap
+    implementation root.A_PredatorDependancies.network
+    implementation root.A_PredatorDependancies.layout_carbon
+    // ButterKnife
+    implementation root.butterKnifeDependacies.butterKnife
+    annotationProcessor root.butterKnifeDependacies.butterKnifeCompiler
+    // Glide
+    implementation root.glideDependancies.glide
+    annotationProcessor root.glideDependancies.glideAndroidProcessor
+    // RxJava
+    implementation root.reactiveDependencies.rxandroid
+    implementation root.reactiveDependencies.rxjava
+    //Maps
+    implementation root.MapsDependancies.play_service_maps
+    implementation 'com.mapbox.mapboxsdk:mapbox-android-sdk:7.1.2'
+    implementation 'com.mapbox.mapboxsdk:mapbox-android-navigation-ui:0.30.0'
+    implementation 'com.github.mastrgamr:mapbox-android-utils:v0.3'
+
+
+
+
+
+
+}

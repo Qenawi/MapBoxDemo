@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:background="@color/carbon_green_50" android:layout_height="match_parent"
+        tools:context=".MainActivity">
+    <carbon.widget.TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Hi ! Pleas Pick Route To Start ..."
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textSize="25sp"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/carbon_black"
+            android:layout_centerInParent="true"
+    />
+    <carbon.widget.TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:clickable="true"
+            android:id="@+id/start_ptn1"
+            app:carbon_backgroundTint="@null"
+            android:textSize="18sp"
+            android:background="@color/carbon_black_6"
+            app:carbon_elevation="2dp"
+            android:padding="5dp"
+            app:carbon_rippleColor="@color/carbon_lime_50"
+            android:text="Route 1 Sarya elkopa "/>
+    <carbon.widget.TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:id="@+id/start_ptn2"
+            app:carbon_elevation="2dp"
+            app:carbon_backgroundTint="@null"
+            android:background="@color/carbon_black_12"
+            android:padding="5dp"
+            app:carbon_rippleColor="@color/carbon_lime_50"
+            android:text="Route 2 Naser City"
+            android:textSize="18sp"
+            android:layout_below="@id/start_ptn1"
+            android:layout_marginTop="20dp"
+            android:layout_centerInParent="true"
+    />
+
+
+</RelativeLayout>
