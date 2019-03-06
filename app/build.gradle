@@ -3,6 +3,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.google.gms.google-services'
 def root = rootProject.ext;
 
 android {
@@ -78,8 +79,10 @@ dependencies {
     implementation 'com.github.mastrgamr:mapbox-android-utils:v0.3'
 
 
-
-
+    implementation 'com.google.firebase:firebase-messaging:17.3.4'
+    implementation 'com.google.firebase:firebase-database:16.0.6'
+    implementation 'jp.wasabeef:recyclerview-animators:2.3.0'
 
 
 }
+apply plugin: 'com.google.gms.google-services'

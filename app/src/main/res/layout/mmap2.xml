@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<carbon.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:mapbox="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/containeer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MainActivity">
+        tools:context=".Main.MainActivity">
 
     <com.mapbox.mapboxsdk.maps.MapView
             android:id="@+id/mapView"
@@ -13,6 +14,175 @@
             android:layout_height="match_parent"
             mapbox:mapbox_cameraTargetLat="40.73581"
             mapbox:mapbox_cameraTargetLng="-73.99155"
-            mapbox:mapbox_cameraZoom="11" />
+            mapbox:mapbox_cameraZoom="11" tools:layout_editor_absoluteY="46dp" tools:layout_editor_absoluteX="0dp"/>
+    <carbon.widget.FloatingActionButton
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:id="@+id/Location_btn"
+            android:layout_marginBottom="8dp"
+            mapbox:layout_constraintBottom_toBottomOf="parent"
+            mapbox:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
+            android:padding="20dp"
+            android:background="@color/carbon_lime_50"
+            mapbox:carbon_rippleColor="@color/carbon_green_400"
+            mapbox:carbon_tint="@null"
+            android:clickable="true"
+            mapbox:carbon_elevation="12dp"
+            mapbox:layout_constraintTop_toTopOf="parent"
+            mapbox:layout_constraintVertical_bias="0.958"
+            mapbox:layout_constraintStart_toStartOf="@+id/mapView"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/mylocation"
+            android:scaleType="fitXY"
+            mapbox:layout_constraintHorizontal_bias="1.0"/>
 
-</android.support.constraint.ConstraintLayout>
+    <carbon.widget.FloatingActionButton
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginBottom="8dp"
+            android:id="@+id/TrackBus_btn"
+            mapbox:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
+            android:padding="20dp"
+            android:background="@color/carbon_green_50"
+            mapbox:carbon_rippleColor="@color/carbon_yellow_a700"
+            mapbox:carbon_tint="@null"
+
+            android:clickable="true"
+            mapbox:carbon_elevation="12dp"
+            mapbox:layout_constraintTop_toTopOf="parent"
+            mapbox:layout_constraintVertical_bias="0.908"
+            mapbox:layout_constraintStart_toStartOf="@+id/mapView"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/front_bus"
+            android:scaleType="fitXY"
+            mapbox:layout_constraintHorizontal_bias="1.0" mapbox:layout_constraintBottom_toTopOf="@+id/Location_btn"/>
+    <carbon.widget.ConstraintLayout
+            android:layout_width="300dp"
+            android:layout_height="150dp"
+            mapbox:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp"
+            mapbox:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp"
+            mapbox:layout_constraintTop_toTopOf="@+id/mapView"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/carbon_white_70"
+            mapbox:carbon_elevation="@dimen/carbon_elevationCard"
+            mapbox:carbon_cornerRadius="5dp"
+            android:clickable="true"
+            mapbox:layout_constraintBottom_toBottomOf="@+id/mapView"
+            mapbox:layout_constraintVertical_bias="0">
+        <android.support.constraint.Guideline android:layout_width="wrap_content"
+                                              android:layout_height="wrap_content"
+                                              android:id="@+id/guideline2"
+                                              android:orientation="horizontal"
+                                              mapbox:layout_constraintGuide_end="102dp"/>
+
+        <android.support.constraint.Guideline android:layout_width="wrap_content"
+                                              android:layout_height="wrap_content"
+                                              android:id="@+id/guideline1"
+                                              android:orientation="horizontal"
+                                              mapbox:layout_constraintGuide_end="40dp"/>
+        <android.support.constraint.Guideline android:layout_width="wrap_content"
+                                              android:layout_height="wrap_content"
+                                              android:id="@+id/guideline3"
+                                              android:orientation="vertical"
+                                              mapbox:layout_constraintGuide_percent="0.5"/>
+        <ImageView android:layout_width="30dp"
+                   android:layout_height="30dp"
+                   android:src="@drawable/front_bus"
+                   android:scaleType="centerInside"
+                   android:layout_marginEnd="8dp"
+                   mapbox:layout_constraintEnd_toEndOf="parent"
+                   android:layout_marginTop="0dp"
+                   mapbox:layout_constraintBottom_toTopOf="@id/guideline2"
+                   mapbox:layout_constraintTop_toTopOf="parent"
+                   android:id="@+id/imageView"/>
+
+
+        <carbon.widget.TextView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:inputType="text"
+                android:id="@+id/picktxt"
+                android:background="@color/carbon_white"
+                android:text="Where To get Picked Up?"
+                android:textColor="@color/carbon_green_400"
+                mapbox:carbon_elevation="@dimen/carbon_elevationCard"
+                mapbox:carbon_cornerRadius="5dp"
+                android:textSize="14sp"
+                android:layout_margin="5dp"
+                android:padding="8dp"
+                android:layout_marginEnd="8dp"
+                mapbox:layout_constraintEnd_toStartOf="@+id/imageView"
+                mapbox:layout_constraintBottom_toTopOf="@+id/guideline2"
+                android:layout_marginTop="8dp"
+                mapbox:layout_constraintTop_toTopOf="parent"
+                android:layout_marginStart="8dp"
+                mapbox:layout_constraintStart_toStartOf="parent"
+                android:layout_marginBottom="10dp"/>
+
+        <carbon.widget.TextView
+                android:id="@+id/Messge_box"
+                android:layout_width="0dp" android:layout_height="0dp"
+                android:layout_marginTop="8dp"
+                mapbox:layout_constraintTop_toBottomOf="@+id/guideline2"
+                android:layout_marginBottom="8dp"
+                tools:text="android"
+                android:textSize="14sp"
+                android:gravity="center"
+                android:textColor="@color/carbon_yellow_a400"
+                mapbox:carbon_animateColorChanges="true"
+                mapbox:layout_constraintBottom_toTopOf="@+id/guideline1"
+                mapbox:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
+                mapbox:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"/>
+        <carbon.widget.TextView android:layout_width="0dp" android:layout_height="0dp"
+                                android:text="Confirm"
+                                android:padding="5dp"
+                                android:textColor="@android:color/black"
+                                android:layout_marginBottom="0dp"
+                                android:id="@+id/Confirm"
+                                android:background="@color/carbon_green_400"
+                                android:elevation="@dimen/carbon_elevationCard"
+                                mapbox:carbon_cornerRadius="5dp"
+                                android:gravity="center"
+                                android:clickable="true"
+                                mapbox:carbon_rippleColor="@color/carbon_blue_a100"
+                                android:layout_margin="3dp"
+                                mapbox:layout_constraintBottom_toBottomOf="parent"
+                                mapbox:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
+                                android:layout_marginTop="0dp"
+                                mapbox:layout_constraintTop_toBottomOf="@+id/guideline1"
+                                mapbox:layout_constraintEnd_toStartOf="@+id/guideline3"
+                                android:layout_marginEnd="0dp"/>
+
+        <carbon.widget.TextView android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:text="Cancel"
+                                android:id="@+id/Cancel"
+                                android:textColor="@android:color/black"
+                                android:layout_marginBottom="8dp"
+                                mapbox:layout_constraintBottom_toBottomOf="parent"
+                                android:layout_marginTop="0dp"
+                                android:padding="5dp"
+                                android:elevation="@dimen/carbon_elevationCard"
+                                mapbox:carbon_cornerRadius="5dp"
+                                android:clickable="true"
+                                android:layout_margin="3dp"
+                                android:gravity="center"
+                                mapbox:carbon_rippleColor="@color/carbon_yellow_a100"
+                                android:background="@color/carbon_red_a100"
+                                mapbox:layout_constraintTop_toBottomOf="@+id/guideline1"
+                                mapbox:layout_constraintVertical_bias="1.0" android:layout_marginEnd="8dp"
+                                mapbox:layout_constraintEnd_toEndOf="parent"
+                                mapbox:layout_constraintStart_toEndOf="@+id/guideline3"
+                                android:layout_marginStart="0dp"/>
+
+    </carbon.widget.ConstraintLayout>
+
+
+</carbon.widget.ConstraintLayout>

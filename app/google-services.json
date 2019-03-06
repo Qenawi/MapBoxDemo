@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "209968256104",
+    "firebase_url": "https://studentappmapandtransportation.firebaseio.com",
+    "project_id": "studentappmapandtransportation",
+    "storage_bucket": "studentappmapandtransportation.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:209968256104:android:9020707be2bc5349",
+        "android_client_info": {
+          "package_name": "com.panda.stuedent_map_1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "209968256104-p028iv2q0jlm1ldgqgfok95q79rjkrk8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.panda.stuedent_map_1",
+            "certificate_hash": "251e2acb9e90c9f0522fce42dde8c21aca37e882"
+          }
+        },
+        {
+          "client_id": "209968256104-ov7mculelq8aieq4p6v48t1mp3shgmqh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2RnghpiG7WuV_ylib2WnExvD7BYjxrEw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "209968256104-ov7mculelq8aieq4p6v48t1mp3shgmqh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

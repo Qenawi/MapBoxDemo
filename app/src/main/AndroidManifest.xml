@@ -12,19 +12,18 @@
             android:supportsRtl="true"
             android:theme="@style/AppThemeApp"
             tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".MainActivity">
+        <activity android:name=".Main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".Map_Pkg.MainMapActivity"/>
         <activity android:name=".Map_Pkg.MapActi2"/>
-
-        <meta-data
-                android:name="com.google.android.geo.API_KEY"
-                android:value="AIzaSyBjpzDNKkJq3RfIrth47X_CHtEwOgTE7Eo"/>
+        <service android:name=".MyFirebaseInstanceIDService"    android:stopWithTask="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
     </application>
-
 </manifest>
