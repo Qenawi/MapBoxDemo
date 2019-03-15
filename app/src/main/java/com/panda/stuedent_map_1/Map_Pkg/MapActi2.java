@@ -126,7 +126,6 @@ public class MapActi2 extends AppCompatActivity implements
     TextView CancelBtn;
     @BindView(R.id.picktxt)
     TextView Pick_Apoint;
-
     boolean CanClick = true;
     boolean Enapled = true;
     private Snackbar snackbar = null;
@@ -200,7 +199,6 @@ public class MapActi2 extends AppCompatActivity implements
         });
     }
 
-
     void Disaple_View() {
         Messege.setTextColor(getResources().getColor(R.color.carbon_red_500));
         Messege.setText("Selected Route Is Not Active yet Pleas Contact Driver....");
@@ -209,8 +207,7 @@ public class MapActi2 extends AppCompatActivity implements
 
     @OnClick(R.id.Confirm)
     void Confirm() {
-        if (Pick_up_Pos==null||!Enapled)
-        {
+        if (Pick_up_Pos == null || !Enapled) {
             return;
         }
         CanClick = false;
@@ -236,11 +233,9 @@ public class MapActi2 extends AppCompatActivity implements
                 getLineId())).child("PickupRequst").child(String.valueOf(MyID)).
                 setValue(new PickupRequst("pending", String.valueOf(Pick_up_Pos.getLatitude()) + "," + String.valueOf(Pick_up_Pos.getLongitude()))).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
-            public void onComplete(@NonNull Task<Void> task)
-            {
+            public void onComplete(@NonNull Task<Void> task) {
                 ShowSnack("TaskResult" + String.valueOf(task.isSuccessful()), R.color.carbon_orange_200);
-                if (task.isSuccessful() && task.isComplete())
-                {
+                if (task.isSuccessful() && task.isComplete()) {
                     HockUpConfirmationListner();
                 }
             }
@@ -249,7 +244,6 @@ public class MapActi2 extends AppCompatActivity implements
 
     void HockUpConfirmationListner() {
 
-
         Query query = databaseReference.child("Navigation").child(String.valueOf(Selected_route_module.
                 getLineId())).child("PickupRequst").child(String.valueOf(MyID));
         Confermation_Value_Event_Listner = query.addValueEventListener(new ValueEventListener() {
@@ -257,13 +251,11 @@ public class MapActi2 extends AppCompatActivity implements
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 PickupRequst pickupRequst = dataSnapshot.getValue(PickupRequst.class);
                 if (pickupRequst != null && pickupRequst.getState() != null) {
-                    if (pickupRequst.getState().equals("accepted"))
-                    {
+                    if (pickupRequst.getState().equals("accepted")) {
                         Messege.setTextColor(getResources().getColor(R.color.carbon_green_600));
                         Messege.setText("Request Confirmed ....");
                         Toast.makeText(MapActi2.this, "Confirmed", Toast.LENGTH_SHORT).show();
                         StartAnimation();
-
                     }
                 }
             }
@@ -274,13 +266,13 @@ public class MapActi2 extends AppCompatActivity implements
             }
         });
     }
-    private void StartAnimation()
-    {
+
+    private void StartAnimation() {
         databaseReference.removeEventListener(Confermation_Value_Event_Listner); // Remove
         Animateee();
     }
-    void Check_If_Currnt_Route_Is_Usable()
-    {
+
+    void Check_If_Currnt_Route_Is_Usable() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("Navigation");
         Query query = myRef.child(String.valueOf(Selected_route_module.getLineId()));
@@ -433,67 +425,64 @@ public class MapActi2 extends AppCompatActivity implements
 
     // Marker Anmiation
     void Animateee() {
-
         handler = new Handler();
         index = -1;
         next = 1;
-         runnable= () -> {
-             if (index < Route_Points.size() - 1) {
-                 index++;
-                 next = index + 1;
-             }
-             if (index < Route_Points.size() - 1) {
-                 startPosition = Route_Points.get(index);
-                 endPosition = Route_Points.get(next);
-             }
-             if (index == 0) {
+        runnable = () ->
+        {
+            Log.v("run", "remove");
+            if (index < Route_Points.size() - 1) {
+                index++;
+                next = index + 1;
+                startPosition = Route_Points.get(index);
+                endPosition = Route_Points.get(next);
+            }
+            valueAnimator = ValueAnimator.ofFloat(0, 1);
+            valueAnimator.setDuration(800);
+            valueAnimator.setInterpolator(new LinearInterpolator());
+            valueAnimator.addUpdateListener(valueAnimator ->
+            {
+                Log.v("run", "listner");
 
-             }
-             if (index == Route_Points.size() - 1) {
+                //animate Point To to point  Start -> end 0 -> 1
+                v = valueAnimator.getAnimatedFraction();
+                lng = v * endPosition.getLongitude() + (1 - v)
+                        * startPosition.getLongitude();
+                lat = v * endPosition.getLatitude() + (1 - v)
+                        * startPosition.getLatitude();
+                LatLng newPos = new LatLng(lat, lng);
+                CarPosition = newPos;
+                Current_Bearing = NextFloat_Bearing;
+                NextFloat_Bearing = getBearing(startPosition, newPos);
 
-             }
-             valueAnimator = ValueAnimator.ofFloat(0, 1);
-             valueAnimator.setDuration(3000);
-             valueAnimator.setInterpolator(new LinearInterpolator());
-             valueAnimator.addUpdateListener(valueAnimator ->
-                     {
-                 //animate Point To to point  Start -> end 0 -> 1
-                 v = valueAnimator.getAnimatedFraction();
-                 lng = v * endPosition.getLongitude() + (1 - v)
-                         * startPosition.getLongitude();
-                 lat = v * endPosition.getLatitude() + (1 - v)
-                         * startPosition.getLatitude();
-                 LatLng newPos = new LatLng(lat, lng);
-                 CarPosition = newPos;
-                 Current_Bearing = NextFloat_Bearing;
-                 NextFloat_Bearing = getBearing(startPosition, newPos);
+                animate_Helper_Update_Marker(newPos);
 
-                  if (mapboxMap!=null&&mapboxMap.getStyle()!=null)
-                  {
-                mapboxMap.getStyle().getLayer("layer-id").
-                setProperties(PropertyFactory.iconRotate(NextFloat_Bearing),
-                PropertyFactory.iconAnchor(com.mapbox.mapboxsdk.style.layers.Property.ICON_ANCHOR_CENTER),
-                PropertyFactory.visibility(com.mapbox.mapboxsdk.style.layers.Property.VISIBLE));// Rotation And Anchor
-                   }
-                 geoJsonSource.setGeoJson(Point.fromLngLat(newPos.getLongitude(), newPos.getLatitude()));
-                   }
-             );
-             valueAnimator.start();
-             if (index != Route_Points.size() - 1)
-             {
-                 // if Route List Still Has Points   Re Do Operation With Delay OF 500 Ms
-                 if (net.mastrgamr.mbmapboxutils.SphericalUtil.computeDistanceBetween(Route_Points.get(index), Pick_up_Pos) <= 20)
-                 {
-                     ShowSnack("Pleas Get In The Pus", R.color.carbon_orange_a400);
-                 }
-                 handler.postDelayed(runnable, 2500);
-             }
-         };
-        handler.postDelayed(runnable, 1000);// First Delay Lunch ---
+            });
+            valueAnimator.start();
+            if (index != Route_Points.size() - 1) {
+                // if Route List Still Has Points   Re Do Operation With Delay OF 500 Ms
+                if (net.mastrgamr.mbmapboxutils.SphericalUtil.computeDistanceBetween(Route_Points.get(index), Pick_up_Pos) <= 50) {
+                    ShowSnack("Pleas Get In The Pus", R.color.carbon_orange_a400);
+                }
+                handler.postDelayed(runnable, 800);
+            }
+        };
+        handler.postDelayed(runnable, 800);// First Delay Lunch ---
+    }
+
+
+    private void animate_Helper_Update_Marker(LatLng newPos) {
+        if (mapboxMap != null && mapboxMap.getStyle() != null) {
+            mapboxMap.getStyle().getLayer("layer-id").
+                    setProperties(PropertyFactory.iconRotate(NextFloat_Bearing),
+                            PropertyFactory.iconAnchor(com.mapbox.mapboxsdk.style.layers.Property.ICON_ANCHOR_CENTER),
+                            PropertyFactory.visibility(com.mapbox.mapboxsdk.style.layers.Property.VISIBLE));// Rotation And Anchor
         }
+        geoJsonSource.setGeoJson(Point.fromLngLat(newPos.getLongitude(), newPos.getLatitude()));
+    }
 
-    public void rotateMarker(final float toRotation)
-    {
+    //-------------------------
+    public void rotateMarker(final float toRotation) {
         valueAnimator.pause();
         ValueAnimator animator = ValueAnimator.ofFloat(Current_Bearing, toRotation);
         animator.setDuration(500);
@@ -609,6 +598,27 @@ public class MapActi2 extends AppCompatActivity implements
     @Override
     protected void onPause() {
         super.onPause();
+
+        if (handler != null && runnable != null) {
+            Log.v("Stoped", "handelers");
+
+            handler.removeCallbacksAndMessages(null);
+
+        }
+        if (valueAnimator != null) {
+            valueAnimator.removeAllUpdateListeners();
+            Log.v("Stoped", "remove listners");
+
+            if (valueAnimator.isRunning()) {
+                valueAnimator.end();
+                Log.v("Stoped", "remove end");
+
+                valueAnimator.cancel();
+                Log.v("Stoped", "remove cancel");
+            }
+
+
+        }
         Snackbar.clearQueue();
         mapView.onPause();
     }
@@ -616,11 +626,6 @@ public class MapActi2 extends AppCompatActivity implements
     @Override
     protected void onStop() {
         super.onStop();
-        if (valueAnimator!=null)
-        valueAnimator.removeAllUpdateListeners();
-        if (handler!=null&&runnable!=null)
-        handler.removeCallbacksAndMessages(runnable);
-        Snackbar.clearQueue();
         mapView.onStop();
     }
 

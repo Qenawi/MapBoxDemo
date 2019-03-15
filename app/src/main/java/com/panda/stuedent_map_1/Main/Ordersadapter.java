@@ -10,6 +10,8 @@ import com.panda.stuedent_map_1.R;
 import io.reactivex.annotations.NonNull;
 
 import java.security.InvalidParameterException;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -19,6 +21,7 @@ import java.util.List;
 public class Ordersadapter extends RecyclerView.Adapter<MyViewHolder>
 {
     private List<Route_Module> movies;
+
     private Context c;
     Callback callback;
     int selection_pos = 0;

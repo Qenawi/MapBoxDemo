@@ -13,11 +13,13 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.panda.stuedent_map_1"
-        minSdkVersion 26
+        minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+
     }
     buildTypes {
         release {
@@ -61,7 +63,6 @@ dependencies {
     implementation root.squareDependencies.okHttpLoging
 
     // Ap
-    implementation root.A_PredatorDependancies.network
     implementation root.A_PredatorDependancies.layout_carbon
     // ButterKnife
     implementation root.butterKnifeDependacies.butterKnife
@@ -82,6 +83,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging:17.3.4'
     implementation 'com.google.firebase:firebase-database:16.0.6'
     implementation 'jp.wasabeef:recyclerview-animators:2.3.0'
+    implementation root.developerDependancies.multidex
+
 
 
 }
