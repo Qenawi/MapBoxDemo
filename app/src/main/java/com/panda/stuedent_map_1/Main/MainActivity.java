@@ -12,6 +12,7 @@ import carbon.widget.RecyclerView;
 import com.google.firebase.database.*;
 import com.panda.stuedent_map_1.Main.Models.Route_Module;
 import com.panda.stuedent_map_1.Map_Pkg.MapActi2;
+import com.panda.stuedent_map_1.Map_Pkg.MapActi3;
 import com.panda.stuedent_map_1.R;
 import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -73,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
                         .subscribe(s ->
                         {
                             Intent intent = new Intent
-                                    (MainActivity.this, MapActi2.class);
+                                    (MainActivity.this, MapActi3.class);
                             Bundle bundle = new Bundle();
                             bundle.putParcelable("RouteModule", Routes.get(SelectedPos));
                             intent.putExtras(bundle);

@@ -33,59 +33,53 @@ android {
     }
 }
 
-dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-
-    // Base
-    implementation root.supportDependencies.design
-    implementation root.supportDependencies.appcompat
-    implementation root.supportDependencies.recyclerview
-    implementation root.supportDependencies.cardview
-    implementation root.supportDependencies.constraintLayout
-
-    // Lifecycle arch
-    implementation root.GoogleLifeArchDependancies.runtime
-    implementation root.GoogleLifeArchDependancies.extension
-    annotationProcessor root.GoogleLifeArchDependancies.compiler
-
-    // Room
-    implementation root.RoomDependancies.runtime
-    implementation root.RoomDependancies.rxAdapter
-    annotationProcessor root.RoomDependancies.compiler
-
-    // Retrofit & OkHttp
-    implementation root.squareDependencies.retrofit
-    implementation root.squareDependencies.adapter_rx_java
-    implementation root.squareDependencies.converter_gson
-    implementation root.squareDependencies.okHttp
-    implementation root.squareDependencies.okHttpLoging
-
-    // Ap
-    implementation root.A_PredatorDependancies.layout_carbon
-    // ButterKnife
-    implementation root.butterKnifeDependacies.butterKnife
-    annotationProcessor root.butterKnifeDependacies.butterKnifeCompiler
-    // Glide
-    implementation root.glideDependancies.glide
-    annotationProcessor root.glideDependancies.glideAndroidProcessor
-    // RxJava
-    implementation root.reactiveDependencies.rxandroid
-    implementation root.reactiveDependencies.rxjava
-    //Maps
-    implementation root.MapsDependancies.play_service_maps
-    implementation 'com.mapbox.mapboxsdk:mapbox-android-sdk:7.1.2'
-    implementation 'com.mapbox.mapboxsdk:mapbox-android-navigation-ui:0.30.0'
-    implementation 'com.github.mastrgamr:mapbox-android-utils:v0.3'
-
-
-    implementation 'com.google.firebase:firebase-messaging:17.3.4'
-    implementation 'com.google.firebase:firebase-database:16.0.6'
-    implementation 'jp.wasabeef:recyclerview-animators:2.3.0'
-    implementation root.developerDependancies.multidex
+dependencies
+            {
+            implementation fileTree(dir: 'libs', include: ['*.jar'])
+            implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+            // Base
+            implementation root.supportDependencies.design
+            implementation root.supportDependencies.appcompat
+            implementation root.supportDependencies.recyclerview
+            implementation root.supportDependencies.cardview
+            implementation root.supportDependencies.constraintLayout
+            // Lifecycle arch
+            implementation root.GoogleLifeArchDependancies.runtime
+            implementation root.GoogleLifeArchDependancies.extension
+            annotationProcessor root.GoogleLifeArchDependancies.compiler
+            // Room
+            implementation root.RoomDependancies.runtime
+            implementation root.RoomDependancies.rxAdapter
+            annotationProcessor root.RoomDependancies.compiler
+            // Retrofit & OkHttp
+            implementation root.squareDependencies.retrofit
+            implementation root.squareDependencies.adapter_rx_java
+            implementation root.squareDependencies.converter_gson
+            implementation root.squareDependencies.okHttp
+            implementation root.squareDependencies.okHttpLoging
+            // Ap
+            implementation root.A_PredatorDependancies.layout_carbon
+            // ButterKnife
+            implementation root.butterKnifeDependacies.butterKnife
+            annotationProcessor root.butterKnifeDependacies.butterKnifeCompiler
+            // Glide
+            implementation root.glideDependancies.glide
+            annotationProcessor root.glideDependancies.glideAndroidProcessor
+            // RxJava
+            implementation root.reactiveDependencies.rxandroid
+            implementation root.reactiveDependencies.rxjava
+            //Maps
+            implementation root.MapsDependancies.play_service_maps
+            implementation 'com.mapbox.mapboxsdk:mapbox-android-sdk:7.1.2'
+            implementation 'com.mapbox.mapboxsdk:mapbox-android-navigation-ui:0.30.0'
+            implementation 'com.github.mastrgamr:mapbox-android-utils:v0.3'
+            //noinspection GradleDependency
+            implementation 'com.google.firebase:firebase-messaging:17.3.4'
+            //noinspection GradleDependency
+            implementation 'com.google.firebase:firebase-database:16.0.6'
+            implementation 'jp.wasabeef:recyclerview-animators:2.3.0'
+            implementation root.developerDependancies.multidex
 
 
-
-}
+        }
 apply plugin: 'com.google.gms.google-services'

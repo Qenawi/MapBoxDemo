@@ -1,22 +1,17 @@
 package com.panda.stuedent_map_1.Map_Pkg;
 
-import android.animation.*;
+import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Parcelable;
-import android.os.SystemClock;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.util.Property;
 import android.view.Gravity;
-import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.Toast;
 import butterknife.BindView;
@@ -25,6 +20,7 @@ import butterknife.OnClick;
 import carbon.widget.ConstraintLayout;
 import carbon.widget.Snackbar;
 import carbon.widget.TextView;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.*;
@@ -33,11 +29,12 @@ import com.mapbox.android.core.permissions.PermissionsManager;
 import com.mapbox.api.directions.v5.models.DirectionsResponse;
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
 import com.mapbox.core.constants.Constants;
-import com.mapbox.core.utils.MapboxUtils;
 import com.mapbox.geojson.Feature;
 import com.mapbox.geojson.LineString;
 import com.mapbox.geojson.Point;
 import com.mapbox.mapboxsdk.Mapbox;
+import com.mapbox.mapboxsdk.annotations.Icon;
+import com.mapbox.mapboxsdk.annotations.IconFactory;
 import com.mapbox.mapboxsdk.annotations.MarkerOptions;
 import com.mapbox.mapboxsdk.camera.CameraPosition;
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
@@ -53,13 +50,10 @@ import com.mapbox.mapboxsdk.style.layers.PropertyFactory;
 import com.mapbox.mapboxsdk.style.layers.SymbolLayer;
 import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
 import com.mapbox.services.android.navigation.ui.v5.route.NavigationMapRoute;
-import com.mapbox.services.android.navigation.ui.v5.utils.MapUtils;
 import com.mapbox.services.android.navigation.v5.navigation.NavigationRoute;
 import com.panda.stuedent_map_1.Main.Models.PickupRequst;
 import com.panda.stuedent_map_1.Main.Models.Route_Module;
 import com.panda.stuedent_map_1.R;
-import android.support.annotation.NonNull;
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
@@ -69,10 +63,7 @@ import retrofit2.Response;
 import timber.log.Timber;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Observable;
-import java.util.concurrent.Callable;
 /**
  * Main Targets - >
  * Draw Route Between 2 Locations (Done)
@@ -89,9 +80,9 @@ import java.util.concurrent.Callable;
  * Design pattern Used
  * Mv-vM
  */
-public class MapActi2 extends AppCompatActivity implements
+public class MapActi3 extends AppCompatActivity implements
         OnMapReadyCallback, PermissionsListener {
-    private static final String TAG = MapActi2.class.getSimpleName();
+    private static final String TAG = MapActi3.class.getSimpleName();
     private PermissionsManager permissionsManager;// To Aquire Permission
     private MapboxMap mapboxMap; // MapBox Main Object
     private MapView mapView;// MapView Xml
@@ -120,10 +111,6 @@ public class MapActi2 extends AppCompatActivity implements
     private Route_Module Selected_route_module = null;
     @BindView(R.id.Messge_box)
     TextView Messege;
-    @BindView(R.id.Confirm)
-    TextView ConfirmBtn;
-    @BindView(R.id.Cancel)
-    TextView CancelBtn;
     @BindView(R.id.picktxt)
     TextView Pick_Apoint;
     boolean CanClick = true;
@@ -147,7 +134,7 @@ public class MapActi2 extends AppCompatActivity implements
         Mapbox.getInstance(this, getString(R.string.access_token));
         // This contains the MapView in XML and needs to be called after
         // the access token is configured.
-        setContentView(R.layout.mmap2);
+        setContentView(R.layout.mmap3);
         ButterKnife.bind(this);
         database = FirebaseDatabase.getInstance();
         databaseReference = database.getReference();
@@ -159,15 +146,15 @@ public class MapActi2 extends AppCompatActivity implements
         mapView = findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
         disposable = new CompositeDisposable();
-        Messege.setTextColor(getResources().getColor(R.color.carbon_yellow_a400));
-        Messege.setText("Getting Things Ready ....");
+        //   Messege.setTextColor(getResources().getColor(R.color.carbon_yellow_a400));
+        //  Messege.setText("Getting Things Ready ....");
         Check_If_Currnt_Route_Is_Usable();
     }
 
     @Override
     public void onMapReady(@NonNull final MapboxMap mapboxMap2) {
         // Map Is Ready
-        MapActi2.this.mapboxMap = mapboxMap2;
+        MapActi3.this.mapboxMap = mapboxMap2;
         mapboxMap.setStyle(Style.MAPBOX_STREETS, new Style.OnStyleLoaded() {
             @SuppressLint("MissingPermission")
             @Override
@@ -183,10 +170,11 @@ public class MapActi2 extends AppCompatActivity implements
             if (snackbar != null || !Enapled || !CanClick) {
                 return false;
             }
-
+            mapboxMap.addMarker(new MarkerOptions().position(point).title("Ahmed Mohamed").setSnippet("Approximate time to Arrival (3) min"));
+           /*
             SelectPoint.setGeoJson(Point.fromLngLat(point.getLongitude(), point.getLatitude()));
             Pick_up_Pos = point;
-            mapboxMap.getStyle().getLayer("layer-id2").setProperties(PropertyFactory.visibility(com.mapbox.mapboxsdk.style.layers.Property.VISIBLE));
+           mapboxMap.getStyle().getLayer("layer-id2").setProperties(PropertyFactory.visibility(com.mapbox.mapboxsdk.style.layers.Property.VISIBLE));
 
             if (net.mastrgamr.mbmapboxutils.PolyUtil.isLocationOnPath(new LatLng(point.getLatitude(), point.getLongitude()), Route_Points, false, 10.0)) {
 
@@ -195,6 +183,7 @@ public class MapActi2 extends AppCompatActivity implements
                 ShowSnack("The Point Is To Far From The Bus Route", R.color.carbon_red_a100);
 
             }
+            */
             return false;
         });
     }
@@ -205,28 +194,6 @@ public class MapActi2 extends AppCompatActivity implements
         Enapled = false;
     }
 
-    @OnClick(R.id.Confirm)
-    void Confirm() {
-        if (Pick_up_Pos == null || !Enapled) {
-            return;
-        }
-        CanClick = false;
-        Messege.setTextColor(getResources().getColor(R.color.carbon_lightBlue_500));
-        Messege.setText("pleas W8 While Sending Your Coordinates  ....");
-        SendPickUpRequst();
-
-    }
-
-    @OnClick(R.id.Cancel)
-    void Cancel() {
-        if (!Enapled) {
-            return;
-        }
-        CanClick = true;
-        Messege.setTextColor(getResources().getColor(R.color.carbon_green_200));
-        Messege.setText("Waiting For Location Picking ...");
-
-    }
 
     void SendPickUpRequst() {
         databaseReference.child("Navigation").child(String.valueOf(Selected_route_module.
@@ -252,9 +219,9 @@ public class MapActi2 extends AppCompatActivity implements
                 PickupRequst pickupRequst = dataSnapshot.getValue(PickupRequst.class);
                 if (pickupRequst != null && pickupRequst.getState() != null) {
                     if (pickupRequst.getState().equals("accepted")) {
-                        Messege.setTextColor(getResources().getColor(R.color.carbon_green_600));
-                        Messege.setText("Request Confirmed ....");
-                        Toast.makeText(MapActi2.this, "Confirmed", Toast.LENGTH_SHORT).show();
+                        //    Messege.setTextColor(getResources().getColor(R.color.carbon_green_600));
+                        //    Messege.setText("Request Confirmed ....");
+                        Toast.makeText(MapActi3.this, "Confirmed", Toast.LENGTH_SHORT).show();
                         StartAnimation();
                     }
                 }
@@ -273,6 +240,9 @@ public class MapActi2 extends AppCompatActivity implements
     }
 
     void Check_If_Currnt_Route_Is_Usable() {
+        mapView.getMapAsync(MapActi3.this); // Wait Until Map is Ready
+        /*
+
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("Navigation");
         Query query = myRef.child(String.valueOf(Selected_route_module.getLineId()));
@@ -280,7 +250,7 @@ public class MapActi2 extends AppCompatActivity implements
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    mapView.getMapAsync(MapActi2.this); // Wait Until Map is Ready
+                    mapView.getMapAsync(MapActi3.this); // Wait Until Map is Ready
                 } else {
                     Disaple_View();
                 }
@@ -290,6 +260,7 @@ public class MapActi2 extends AppCompatActivity implements
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
+        */
     }
 
     @SuppressLint("MissingPermission")
@@ -350,8 +321,8 @@ public class MapActi2 extends AppCompatActivity implements
     }
 
     private void getRoute(Point origin, Point destination) {
-        Messege.setTextColor(getResources().getColor(R.color.carbon_yellow_a700));
-        Messege.setText("Getting Your Travel Route ...");
+        //  Messege.setTextColor(getResources().getColor(R.color.carbon_yellow_a700));
+        //  Messege.setText("Getting Your Travel Route ...");
         NavigationRoute.builder(this)
                 .accessToken(Mapbox.getAccessToken())
                 .origin(origin)
@@ -374,7 +345,7 @@ public class MapActi2 extends AppCompatActivity implements
 
                     @Override
                     public void onFailure(Call<DirectionsResponse> call, Throwable throwable) {
-                        Toast.makeText(MapActi2.this, "Faild To Get Route", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MapActi3.this, "Faild To Get Route", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -414,8 +385,9 @@ public class MapActi2 extends AppCompatActivity implements
         navigationMapRoute.addRoute(currentRoute);
         Add_End_Route_Point();
 
-        Messege.setTextColor(getResources().getColor(R.color.carbon_green_200));
-        Messege.setText("Waiting For Location Picking ...");
+        //Messege.setTextColor(getResources().getColor(R.color.carbon_green_200));
+        // Messege.setText("Waiting For Location Picking ...");
+        Animateee();
     }
 
     // Marker Anmiation
@@ -454,11 +426,15 @@ public class MapActi2 extends AppCompatActivity implements
 
             });
             valueAnimator.start();
-            if (index != Route_Points.size() - 1) {
+            if (index != Route_Points.size() - 1)
+            {
                 // if Route List Still Has Points   Re Do Operation With Delay OF 500 Ms
-                if (net.mastrgamr.mbmapboxutils.SphericalUtil.computeDistanceBetween(Route_Points.get(index), Pick_up_Pos) <= 50) {
+                /*
+                if (net.mastrgamr.mbmapboxutils.SphericalUtil.computeDistanceBetween(Route_Points.get(index), Pick_up_Pos) <= 50)
+                {
                     ShowSnack("Pleas Get In The Pus", R.color.carbon_orange_a400);
                 }
+                */
                 handler.postDelayed(runnable, 800);
             }
         };
@@ -510,15 +486,6 @@ public class MapActi2 extends AppCompatActivity implements
         return -1;
     }
 
-    @OnClick(R.id.TrackBus_btn)
-    public void TrackPusLocation() {
-        if (!Enapled || CarPosition == null) {
-            return;
-        }
-        mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition
-                (new CameraPosition.Builder().target(CarPosition)
-                        .zoom(15.5f).build()));
-    }
 
     @SuppressLint("MissingPermission")
     @OnClick(R.id.Location_btn)
@@ -643,9 +610,8 @@ public class MapActi2 extends AppCompatActivity implements
         mapView.onLowMemory();
     }
 
-    private void ShowSnack(String Msg, int Color)
-    {
-        snackbar = new Snackbar(MapActi2.this, Msg, 1500);
+    private void ShowSnack(String Msg, int Color) {
+        snackbar = new Snackbar(MapActi3.this, Msg, 1500);
         snackbar.getView().setBackgroundColor(getResources().getColor(Color));
         snackbar.setStyle(Snackbar.Style.Floating);
         snackbar.setTapOutsideToDismissEnabled(true);
